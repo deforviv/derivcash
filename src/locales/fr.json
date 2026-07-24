@@ -1,0 +1,260 @@
+{
+  "register": {
+    "step": "Étape",
+    "of": "sur",
+    "stepLabels": ["Identité", "Localisation", "Sécurité", "Vérification"],
+    "sideTitle": "Rejoignez des milliers de clients qui font confiance à Derivcash.",
+    "sideFeatures": [
+      "Accès à des prêts dès 200 €",
+      "Réponse de principe sous 48h",
+      "Processus 100% en ligne",
+      "Données protégées et chiffrées"
+    ],
+    "step1": {
+      "title": "Créez votre compte",
+      "subtitle": "Commencez par renseigner vos informations personnelles.",
+      "firstName": "Prénom",
+      "lastName": "Nom de famille",
+      "gender": "Sexe",
+      "genderMale": "Homme",
+      "genderFemale": "Femme",
+      "email": "Adresse e-mail",
+      "phone": "Numéro de téléphone",
+      "phonePlaceholder": "+33 6 00 00 00 00",
+      "next": "Continuer",
+      "emailTaken": "Cette adresse e-mail est déjà associée à un compte.",
+      "phoneTaken": "Ce numéro de téléphone est déjà utilisé."
+    },
+    "step2": {
+      "title": "Votre localisation",
+      "subtitle": "Nous adaptons nos offres selon votre pays de résidence.",
+      "country": "Pays de résidence",
+      "countryPlaceholder": "Sélectionnez votre pays",
+      "city": "Ville",
+      "cityPlaceholder": "Ex : Paris",
+      "back": "Retour",
+      "next": "Continuer"
+    },
+    "step3": {
+      "title": "Sécurisez votre compte",
+      "subtitle": "Choisissez un mot de passe fort pour protéger votre espace.",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "terms": "J'accepte les",
+      "termsLink": "conditions générales d'utilisation",
+      "termsAnd": "et la",
+      "privacyLink": "politique de confidentialité",
+      "back": "Retour",
+      "submit": "Créer mon compte"
+    },
+    "step4": {
+      "title": "Vérification de l'email",
+      "subtitle": "Nous avons envoyé un code à 6 chiffres à votre adresse email.",
+      "verify": "Vérifier",
+      "resend": "Renvoyer le code",
+      "invalidCode": "Le code de vérification est incorrect."
+    },
+    "success": {
+      "title": "Compte créé avec succès !",
+      "subtitle": "Bienvenue sur Derivcash. Vous pouvez dès maintenant soumettre votre première demande de financement.",
+      "cta": "Accéder à mon espace",
+      "home": "Retour à l'accueil"
+    },
+    "alreadyAccount": "Vous avez déjà un compte ?",
+    "login": "Se connecter",
+    "strengthWeak": "Faible",
+    "strengthFair": "Moyen",
+    "strengthGood": "Bon",
+    "strengthStrong": "Fort"
+  },
+  "login": {
+    "sideTitle": "Votre Espace Client Sécurisé",
+    "sideFeatures": [
+      "Gestion de prêts simplifiée",
+      "Suivi des remboursements en temps réel",
+      "Sécurité bancaire avancée"
+    ],
+    "title": "Bienvenue",
+    "subtitle": "Connectez-vous pour accéder à votre espace.",
+    "email": "Adresse Email",
+    "emailPlaceholder": "Entrez votre email",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Votre mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "submit": "Se connecter",
+    "noAccount": "Pas encore de compte ?",
+    "register": "Créer un compte"
+  },
+  "nav": {
+    "solutions": "Solutions",
+    "eligibility": "Éligibilité",
+    "howItWorks": "Fonctionnement",
+    "process": "Processus",
+    "security": "Sécurité",
+    "applyLoan": "Demander un prêt",
+    "login": "Se connecter",
+    "logout": "Se déconnecter"
+  },
+  "hero": {
+    "badge": "Plateforme de financement numérique",
+    "title1": "Un accès plus simple aux",
+    "title2": "solutions de financement",
+    "title3": "dont vous avez besoin.",
+    "subtitle": "Explorez vos options, vérifiez votre éligibilité et suivez votre demande depuis une plateforme conçue pour rendre le financement plus clair.",
+    "cta": "Vérifier mon éligibilité",
+    "ctaSecondary": "Voir les solutions",
+    "stat1Value": "98%",
+    "stat1Label": "de clients satisfaits",
+    "stat2Value": "48h",
+    "stat2Label": "de réponse garantie",
+    "stat3Value": "200€",
+    "stat3Label": "montant minimum"
+  },
+  "trust": {
+    "title": "Une plateforme en laquelle vous pouvez avoir confiance",
+    "items": {
+      "transparent": "Processus transparent",
+      "noFees": "Pas de frais cachés",
+      "secureVerification": "Vérification sécurisée",
+      "encryptedData": "Données chiffrées",
+      "onlineTracking": "Suivi en ligne",
+      "personalSpace": "Espace personnel dédié",
+      "supportAvailable": "Support disponible",
+      "humanAssistance": "Assistance humaine"
+    }
+  },
+  "actions": {
+    "title": "Que souhaitez-vous faire ?",
+    "eligibility": {
+      "title": "Vérifier mon éligibilité",
+      "description": "Répondez à quelques questions et obtenez une estimation en quelques minutes."
+    },
+    "financing": {
+      "title": "Explorer les financements",
+      "description": "Consultez les offres disponibles selon votre profil et votre projet."
+    },
+    "process": {
+      "title": "Comprendre le processus",
+      "description": "Découvrez chaque étape, de la demande jusqu'au déblocage des fonds."
+    },
+    "conditions": {
+      "title": "Connaître les conditions",
+      "description": "Taux, durée, montant : consultez les conditions générales de nos prêts."
+    }
+  },
+  "solutions": {
+    "sectionTitle": "Des solutions adaptées à chaque besoin",
+    "personal": {
+      "badge1": "De 200€ à 50 000€",
+      "badge2": "Taux fixe",
+      "title": "Besoin personnel",
+      "description": "Pour faire face à une dépense imprévue, financer un projet de vie ou couvrir des frais importants.",
+      "cta": "Découvrir"
+    },
+    "professional": {
+      "badge1": "Jusqu'à 100 000€",
+      "badge2": "Flexible",
+      "title": "Projet professionnel",
+      "description": "Développez votre activité, financez votre stock ou lancez votre projet avec des conditions adaptées.",
+      "cta": "Découvrir"
+    },
+    "urgent": {
+      "badge1": "Réponse en 24h",
+      "badge2": "Sans attente",
+      "title": "Besoin urgent",
+      "description": "Accédez rapidement à un financement lorsqu'une situation requiert une prise en charge immédiate.",
+      "cta": "Découvrir"
+    }
+  },
+  "process": {
+    "sectionTitle": "Un processus clair et encadré",
+    "step1": {
+      "title": "Créez votre compte",
+      "description": "Renseignez vos informations de base pour créer votre espace personnel sécurisé en quelques minutes."
+    },
+    "step2": {
+      "title": "Soumettez votre demande",
+      "description": "Complétez votre dossier en ligne, en joignant les pièces justificatives requises."
+    },
+    "step3": {
+      "title": "Analyse de votre dossier",
+      "description": "Nos conseillers étudient votre demande selon des critères clairs et communiqués à l'avance."
+    },
+    "step4": {
+      "title": "Déblocage des fonds",
+      "description": "En cas de validation, les fonds sont virés directement sur votre compte bancaire."
+    }
+  },
+  "eligibility": {
+    "sectionTitle": "Commencez par vérifier votre éligibilité",
+    "disclaimer": "Cette estimation ne constitue pas une décision de prêt. La décision finale dépend des informations fournies et des critères applicables.",
+    "form": {
+      "purpose": {
+        "label": "Objet de la demande",
+        "placeholder": "Sélectionnez un motif"
+      },
+      "amount": {
+        "label": "Montant souhaité",
+        "min": "200 €",
+        "max": "50 000 €"
+      },
+      "duration": {
+        "label": "Durée de remboursement",
+        "months": "mois"
+      },
+      "country": {
+        "label": "Pays de résidence",
+        "placeholder": "Sélectionnez votre pays"
+      },
+      "income": {
+        "label": "Revenus mensuels nets",
+        "placeholder": "Ex : 1 500"
+      }
+    },
+    "summary": {
+      "monthlyPayment": "Mensualité estimée",
+      "note": "Estimation indicative — Résultat personnalisé après étude de dossier",
+      "cta": "Démarrer ma demande"
+    },
+    "purposes": {
+      "personal": "Besoin personnel",
+      "professional": "Projet professionnel",
+      "urgent": "Besoin urgent",
+      "other": "Autre"
+    }
+  },
+  "footer": {
+    "description": "Une plateforme de financement numérique sécurisée, conçue pour vous offrir un accès rapide et transparent aux solutions de prêt.",
+    "solutions": {
+      "title": "Solutions",
+      "personal": "Prêt personnel",
+      "professional": "Projet professionnel",
+      "urgent": "Besoin urgent",
+      "consolidation": "Regroupement de crédits"
+    },
+    "resources": {
+      "title": "Ressources",
+      "howItWorks": "Comment ça marche",
+      "checkEligibility": "Vérifier son éligibilité",
+      "helpCenter": "Centre d'aide",
+      "blog": "Blog & Actualités"
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "0800 00 00 00 (Appel gratuit)",
+      "address": "123 Avenue de la Finance, 75000 Paris"
+    },
+    "legal": {
+      "mentions": "Mentions légales",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions générales d'utilisation",
+      "security": "Sécurité"
+    },
+    "copyright": "Tous droits réservés."
+  },
+  "apply": {
+    "title": "Demande de Financement",
+    "description": "Vous êtes sur le point de commencer votre demande de financement. Le formulaire complet interactif est en cours de construction.",
+    "backHome": "Retour à l'accueil"
+  }
+}

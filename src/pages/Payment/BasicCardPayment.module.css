@@ -1,0 +1,300 @@
+.paymentPage {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text-main);
+  padding: 28px;
+  overflow-x: hidden;
+}
+
+.paymentHeader {
+  max-width: 1100px;
+  margin: 0 auto 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--color-accent);
+}
+
+.brand {
+  font-size: 1.35rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--color-text-main) 0%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.paymentShell {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.paymentIntro,
+.widgetPanel {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.paymentIntro {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+}
+
+.cardPreview {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1.62 / 1;
+  border-radius: 18px;
+  padding: 22px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(135deg, #263241 0%, #465465 55%, #708094 100%);
+  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.basicPreview {
+  background: linear-gradient(135deg, #263241 0%, #465465 55%, #708094 100%);
+}
+
+.standardPreview {
+  background: linear-gradient(135deg, #172554 0%, #2563eb 52%, #06b6d4 100%);
+}
+
+.premiumPreview {
+  background: linear-gradient(135deg, #111827 0%, #7c2d12 48%, #f59e0b 100%);
+}
+
+.cardPreview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.18), transparent 35%),
+    radial-gradient(circle at 85% 18%, rgba(255, 255, 255, 0.22), transparent 24%);
+  pointer-events: none;
+}
+
+.cardPreviewTop,
+.cardPreviewMeta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardPreviewTop span {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.cardPreviewChip {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 34px;
+  border-radius: 9px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.1)),
+    #d4af37;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.cardPreviewNumber {
+  position: relative;
+  z-index: 1;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.cardPreviewMeta span {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.paymentIntro h1 {
+  color: var(--color-text-main);
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.paymentIntro p,
+.widgetPanel p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.widgetPanel h2 {
+  color: var(--color-text-main);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.widgetPanel p {
+  margin-bottom: 22px;
+}
+
+.widgetPanel {
+  min-height: 0;
+  overflow: visible;
+}
+
+.checkoutSection {
+  display: grid;
+  gap: 18px;
+}
+
+.directCheckout {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(242, 66, 80, 0.18);
+  border-radius: var(--radius-md);
+  background: rgba(242, 66, 80, 0.06);
+  padding: 18px;
+  margin-bottom: 22px;
+}
+
+.directCheckoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: fit-content;
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 900;
+  padding: 12px 18px;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.directCheckoutButton:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.directCheckout p {
+  margin-bottom: 0;
+  font-size: 0.92rem;
+}
+
+.unconfiguredPayment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 24px;
+}
+
+.unconfiguredPayment svg {
+  color: var(--color-accent);
+}
+
+.unconfiguredPayment h3 {
+  color: var(--color-text-main);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.unconfiguredPayment p {
+  margin-bottom: 8px;
+}
+
+.returnButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 800;
+  padding: 10px 16px;
+  text-decoration: none;
+}
+
+.returnButton:hover {
+  background: var(--color-accent-hover);
+}
+
+@media (max-width: 900px) {
+  .paymentIntro {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .paymentPage {
+    padding: 18px;
+  }
+
+  .paymentHeader {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+
+  .paymentIntro,
+  .widgetPanel {
+    padding: 16px;
+  }
+
+  .paymentIntro h1 {
+    font-size: 1.55rem;
+  }
+
+  .directCheckoutButton {
+    width: 100%;
+  }
+
+}

@@ -1,0 +1,260 @@
+{
+  "register": {
+    "step": "Step",
+    "of": "of",
+    "stepLabels": ["Identity", "Location", "Security", "Verification"],
+    "sideTitle": "Join thousands of clients who trust Derivcash.",
+    "sideFeatures": [
+      "Access to loans from €200",
+      "Decision in principle within 48h",
+      "100% online process",
+      "Protected and encrypted data"
+    ],
+    "step1": {
+      "title": "Create your account",
+      "subtitle": "Start by entering your personal information.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "gender": "Gender",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "email": "Email address",
+      "phone": "Phone number",
+      "phonePlaceholder": "+44 7 000 000 000",
+      "next": "Continue",
+      "emailTaken": "This email address is already associated with an account.",
+      "phoneTaken": "This phone number is already in use."
+    },
+    "step2": {
+      "title": "Your location",
+      "subtitle": "We tailor our offers based on your country of residence.",
+      "country": "Country of residence",
+      "countryPlaceholder": "Select your country",
+      "city": "City",
+      "cityPlaceholder": "e.g. London",
+      "back": "Back",
+      "next": "Continue"
+    },
+    "step3": {
+      "title": "Secure your account",
+      "subtitle": "Choose a strong password to protect your personal space.",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "terms": "I accept the",
+      "termsLink": "terms and conditions",
+      "termsAnd": "and the",
+      "privacyLink": "privacy policy",
+      "back": "Back",
+      "submit": "Create Account"
+    },
+    "step4": {
+      "title": "Email Verification",
+      "subtitle": "We have sent a 6-digit code to your email address.",
+      "verify": "Verify",
+      "resend": "Resend Code",
+      "invalidCode": "The verification code is incorrect."
+    },
+    "success": {
+      "title": "Account successfully created!",
+      "subtitle": "Welcome to Derivcash. You can now submit your first financing application.",
+      "cta": "Access my space",
+      "home": "Back to home"
+    },
+    "alreadyAccount": "Already have an account?",
+    "login": "Log in",
+    "strengthWeak": "Weak",
+    "strengthFair": "Fair",
+    "strengthGood": "Good",
+    "strengthStrong": "Strong"
+  },
+  "login": {
+    "sideTitle": "Your Secure Client Area",
+    "sideFeatures": [
+      "Simplified loan management",
+      "Real-time repayment tracking",
+      "Advanced banking security"
+    ],
+    "title": "Welcome Back",
+    "subtitle": "Log in to access your dashboard.",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Your password",
+    "forgotPassword": "Forgot your password?",
+    "submit": "Log in",
+    "noAccount": "Don't have an account yet?",
+    "register": "Create an account"
+  },
+  "nav": {
+    "solutions": "Solutions",
+    "eligibility": "Eligibility",
+    "howItWorks": "How it works",
+    "process": "Process",
+    "security": "Security",
+    "applyLoan": "Apply for a loan",
+    "login": "Login",
+    "logout": "Log out"
+  },
+  "hero": {
+    "badge": "Digital Financing Platform",
+    "title1": "Simpler access to the",
+    "title2": "financing solutions",
+    "title3": "you need.",
+    "subtitle": "Explore your options, check your eligibility, and track your application from a platform built to make financing clearer.",
+    "cta": "Check My Eligibility",
+    "ctaSecondary": "View Solutions",
+    "stat1Value": "98%",
+    "stat1Label": "satisfied clients",
+    "stat2Value": "48h",
+    "stat2Label": "guaranteed response",
+    "stat3Value": "€200",
+    "stat3Label": "minimum amount"
+  },
+  "trust": {
+    "title": "A platform you can trust",
+    "items": {
+      "transparent": "Transparent process",
+      "noFees": "No hidden fees",
+      "secureVerification": "Secure verification",
+      "encryptedData": "Encrypted data",
+      "onlineTracking": "Online tracking",
+      "personalSpace": "Dedicated personal space",
+      "supportAvailable": "Available support",
+      "humanAssistance": "Human assistance"
+    }
+  },
+  "actions": {
+    "title": "What would you like to do?",
+    "eligibility": {
+      "title": "Check My Eligibility",
+      "description": "Answer a few questions and get an estimate in just a few minutes."
+    },
+    "financing": {
+      "title": "Explore Financing Options",
+      "description": "Browse available offers based on your profile and your project."
+    },
+    "process": {
+      "title": "Understand the Process",
+      "description": "Discover every step, from application submission to fund disbursement."
+    },
+    "conditions": {
+      "title": "Review the Conditions",
+      "description": "Interest rates, duration, amounts: review the general terms of our loans."
+    }
+  },
+  "solutions": {
+    "sectionTitle": "Solutions tailored to every need",
+    "personal": {
+      "badge1": "From €200 to €50,000",
+      "badge2": "Fixed rate",
+      "title": "Personal needs",
+      "description": "To cover an unexpected expense, fund a life project, or manage significant costs.",
+      "cta": "Learn more"
+    },
+    "professional": {
+      "badge1": "Up to €100,000",
+      "badge2": "Flexible",
+      "title": "Business project",
+      "description": "Grow your business, finance your inventory, or launch your project with tailored terms.",
+      "cta": "Learn more"
+    },
+    "urgent": {
+      "badge1": "Response within 24h",
+      "badge2": "No waiting",
+      "title": "Urgent need",
+      "description": "Access financing quickly when a situation requires immediate attention.",
+      "cta": "Learn more"
+    }
+  },
+  "process": {
+    "sectionTitle": "A clear and structured process",
+    "step1": {
+      "title": "Create your account",
+      "description": "Fill in your basic details to create your secure personal space in just a few minutes."
+    },
+    "step2": {
+      "title": "Submit your application",
+      "description": "Complete your application online, attaching all required supporting documents."
+    },
+    "step3": {
+      "title": "Application review",
+      "description": "Our advisors assess your application against clear, pre-communicated criteria."
+    },
+    "step4": {
+      "title": "Fund disbursement",
+      "description": "Upon approval, funds are transferred directly to your bank account."
+    }
+  },
+  "eligibility": {
+    "sectionTitle": "Start by checking your eligibility",
+    "disclaimer": "This estimate does not constitute a lending decision. The final decision depends on the information provided and the applicable criteria.",
+    "form": {
+      "purpose": {
+        "label": "Reason for application",
+        "placeholder": "Select a reason"
+      },
+      "amount": {
+        "label": "Requested amount",
+        "min": "€200",
+        "max": "€50,000"
+      },
+      "duration": {
+        "label": "Repayment term",
+        "months": "months"
+      },
+      "country": {
+        "label": "Country of residence",
+        "placeholder": "Select your country"
+      },
+      "income": {
+        "label": "Monthly net income",
+        "placeholder": "e.g. 1,500"
+      }
+    },
+    "summary": {
+      "monthlyPayment": "Estimated monthly payment",
+      "note": "Indicative estimate — Personalised result after full application review",
+      "cta": "Start my application"
+    },
+    "purposes": {
+      "personal": "Personal need",
+      "professional": "Business project",
+      "urgent": "Urgent need",
+      "other": "Other"
+    }
+  },
+  "footer": {
+    "description": "A secure digital financing platform, designed to give you fast, transparent access to lending solutions.",
+    "solutions": {
+      "title": "Solutions",
+      "personal": "Personal loan",
+      "professional": "Business project",
+      "urgent": "Urgent need",
+      "consolidation": "Debt consolidation"
+    },
+    "resources": {
+      "title": "Resources",
+      "howItWorks": "How it works",
+      "checkEligibility": "Check eligibility",
+      "helpCenter": "Help centre",
+      "blog": "Blog & News"
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "0800 00 00 00 (Free call)",
+      "address": "123 Finance Avenue, 75000 Paris"
+    },
+    "legal": {
+      "mentions": "Legal notice",
+      "privacy": "Privacy policy",
+      "terms": "Terms and conditions",
+      "security": "Security"
+    },
+    "copyright": "All rights reserved."
+  },
+  "apply": {
+    "title": "Loan Application",
+    "description": "You are about to begin your financing application. The full interactive form is currently being built.",
+    "backHome": "Back to home"
+  }
+}
