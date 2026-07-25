@@ -1,10 +1,16 @@
 import styles from './Apply.module.css';
 import { FileSignature } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Apply() {
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/register" replace />;
+  }
 
   return (
     <div className={styles.applyPage}>

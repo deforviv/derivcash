@@ -1,15 +1,23 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, type MouseEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './Home.module.css';
 import { ArrowRight, CheckCircle2, Shield, Clock, FileText, User, Globe, LayoutDashboard, CreditCard, Settings, Bell } from 'lucide-react';
 import AnimatedText from '../../components/ui/AnimatedText';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [loanAmount, setLoanAmount] = useState<number>(5000);
 
   const locale = i18n.language === 'en' ? 'en-GB' : 'fr-FR';
+  const protectedDestination = isAuthenticated ? '/dashboard' : '/register';
+  const handleProtectedAction = (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    navigate(protectedDestination);
+  };
 
   return (
     <div className={styles.home}>
@@ -32,8 +40,8 @@ export default function Home() {
               stagger={35}
             />
             <div className={styles.heroActions}>
-              <button className={`btn ${styles.btnHeroPrimary}`}>{t('hero.cta')}</button>
-              <Link to="/register" className={`btn ${styles.btnHeroOutline}`}>{t('nav.applyLoan')}</Link>
+              <button className={`btn ${styles.btnHeroPrimary}`} onClick={handleProtectedAction}>{t('hero.cta')}</button>
+              <Link to={protectedDestination} className={`btn ${styles.btnHeroOutline}`}>{t('nav.applyLoan')}</Link>
             </div>
           </div>
           <div className={styles.heroVisual}>
@@ -83,7 +91,7 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>{t('actions.title')}</h2>
           <div className={styles.actionGrid}>
 
-            <a href="#" className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80&fit=crop')` }}>
               <div className={styles.actionCardOverlay} />
               <div className={styles.actionCardContent}>
                 <div className={styles.actionCardIcon}>
@@ -95,7 +103,7 @@ export default function Home() {
               </div>
             </a>
 
-            <a href="#" className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80&fit=crop')` }}>
               <div className={styles.actionCardOverlay} />
               <div className={styles.actionCardContent}>
                 <div className={styles.actionCardIcon}>
@@ -107,7 +115,7 @@ export default function Home() {
               </div>
             </a>
 
-            <a href="#" className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&fit=crop')` }}>
               <div className={styles.actionCardOverlay} />
               <div className={styles.actionCardContent}>
                 <div className={styles.actionCardIcon}>
@@ -119,7 +127,7 @@ export default function Home() {
               </div>
             </a>
 
-            <a href="#" className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.actionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80&fit=crop')` }}>
               <div className={styles.actionCardOverlay} />
               <div className={styles.actionCardContent}>
                 <div className={styles.actionCardIcon}>
@@ -185,7 +193,7 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>{t('solutions.sectionTitle')}</h2>
           <div className={styles.solutionsGrid}>
 
-            <a href="#" className={styles.solutionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.solutionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80&fit=crop')` }}>
               <div className={styles.solutionOverlay} />
               <div className={styles.solutionCardContent}>
                 <div className={styles.solutionBadges}>
@@ -200,7 +208,7 @@ export default function Home() {
               </div>
             </a>
 
-            <a href="#" className={styles.solutionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.solutionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&fit=crop')` }}>
               <div className={styles.solutionOverlay} />
               <div className={styles.solutionCardContent}>
                 <div className={styles.solutionBadges}>
@@ -215,7 +223,7 @@ export default function Home() {
               </div>
             </a>
 
-            <a href="#" className={styles.solutionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=80&fit=crop')` }}>
+            <a href={protectedDestination} onClick={handleProtectedAction} className={styles.solutionCard} style={{ backgroundImage: `url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=80&fit=crop')` }}>
               <div className={styles.solutionOverlay} />
               <div className={styles.solutionCardContent}>
                 <div className={styles.solutionBadges}>
@@ -372,7 +380,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <button className="btn btn-primary" style={{ width: '100%', marginTop: 'var(--spacing-md)', fontSize: '1rem', padding: '14px' }}>
+              <button className="btn btn-primary" onClick={handleProtectedAction} style={{ width: '100%', marginTop: 'var(--spacing-md)', fontSize: '1rem', padding: '14px' }}>
                 {t('hero.cta')}
               </button>
             </div>
@@ -391,21 +399,21 @@ export default function Home() {
                 <p>{i18n.language === 'en' ? 'Clear resources to guide you at every step.' : 'Des ressources claires pour vous accompagner à chaque étape.'}</p>
               </div>
               <div className={styles.articlesList}>
-                <a href="#" className={styles.articleCard}>
+                <a href={protectedDestination} onClick={handleProtectedAction} className={styles.articleCard}>
                   <div className={styles.articleCardContent}>
                     <h4>{i18n.language === 'en' ? 'How does a loan application work?' : 'Comment fonctionne une demande de prêt ?'}</h4>
                     <p>{i18n.language === 'en' ? 'Discover the 4 key steps in our secure validation process.' : 'Découvrez les 4 étapes clés de notre processus de validation sécurisé.'}</p>
                   </div>
                   <div className={styles.articleCardArrow}><ArrowRight size={20} /></div>
                 </a>
-                <a href="#" className={styles.articleCard}>
+                <a href={protectedDestination} onClick={handleProtectedAction} className={styles.articleCard}>
                   <div className={styles.articleCardContent}>
                     <h4>{i18n.language === 'en' ? 'Understanding rates and repayments' : 'Comprendre les taux et remboursements'}</h4>
                     <p>{i18n.language === 'en' ? 'Everything you need to know about APR, monthly payments and insurance.' : 'Tout savoir sur le TAEG, le calcul des mensualités et l\'assurance.'}</p>
                   </div>
                   <div className={styles.articleCardArrow}><ArrowRight size={20} /></div>
                 </a>
-                <a href="#" className={styles.articleCard}>
+                <a href={protectedDestination} onClick={handleProtectedAction} className={styles.articleCard}>
                   <div className={styles.articleCardContent}>
                     <h4>{i18n.language === 'en' ? 'How do we protect your data?' : 'Comment protégeons-nous vos données ?'}</h4>
                     <p>{i18n.language === 'en' ? 'Our advanced security protocols and bank-grade encryption explained.' : 'Nos protocoles de sécurité avancés et de chiffrement bancaire expliqués.'}</p>
