@@ -275,6 +275,10 @@
   color: var(--color-accent);
 }
 
+.mobileLogoutBtn {
+  display: none;
+}
+
 .badge {
   position: absolute;
   top: -2px;
@@ -1285,6 +1289,7 @@
     bottom: 0;
     width: 260px;
     height: 100vh;
+    height: 100dvh;
     z-index: 500;
     transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: none;
@@ -1301,6 +1306,18 @@
     align-items: center;
     justify-content: space-between;
     padding: 24px 20px;
+    flex-shrink: 0;
+  }
+
+  .sidebarNav {
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 16px;
+  }
+
+  .sidebarFooter {
+    flex-shrink: 0;
+    background: var(--color-bg-surface);
   }
 
   .sidebarCloseBtn {
@@ -1354,6 +1371,10 @@
     gap: 12px;
   }
 
+  .topActions {
+    gap: 8px;
+  }
+
   .mobileMenuBtn {
     display: flex;
     align-items: center;
@@ -1371,6 +1392,26 @@
 
   .mobileMenuBtn:hover {
     background-color: rgba(255,255,255,0.05);
+  }
+
+  .mobileLogoutBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mobileLogoutBtn:hover {
+    background: rgba(239, 68, 68, 0.14);
+    border-color: rgba(239, 68, 68, 0.42);
   }
 
   .greeting h1 {

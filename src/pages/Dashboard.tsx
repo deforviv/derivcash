@@ -336,6 +336,9 @@ export default function Dashboard() {
               <Bell size={20} />
               {notifications.length > 0 && <span className={styles.badge}>{notifications.length}</span>}
             </button>
+            <button className={styles.mobileLogoutBtn} onClick={handleLogout} aria-label="Se déconnecter">
+              <LogOut size={20} />
+            </button>
             <div className={styles.avatar}>
               {user.first_name.charAt(0)}{user.last_name.charAt(0)}
             </div>
