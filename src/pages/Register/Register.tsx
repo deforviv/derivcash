@@ -1,51 +1,11 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Check, Eye, EyeOff, ShieldCheck, ChevronRight, ChevronDown, Search, Loader2, Mars, Venus } from 'lucide-react';
+import { Check, Eye, EyeOff, ShieldCheck, ChevronRight, ChevronDown, Loader2, Mars, Venus } from 'lucide-react';
 import { sendVerificationEmail } from '../../utils/brevo';
 import { checkDuplicate, createProfile } from '../../utils/supabase';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Register.module.css';
-
-type CityOption = {
-  name: string;
-  stateCode?: string;
-  latitude?: string | null;
-  longitude?: string | null;
-};
-
-const normalizeSearchText = (value: string) =>
-  value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[’']/g, ' ')
-    .replace(/[^a-zA-Z0-9\s-]/g, ' ')
-    .replace(/-/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
-
-const COUNTRY_TO_ISO: Record<string, string> = {
-  "Belgique": "BE", "Bénin": "BJ", "Burkina Faso": "BF", "Burundi": "BI", "Cameroun": "CM", 
-  "Canada": "CA", "Comores": "KM", "Congo": "CG", "Côte d'Ivoire": "CI", "Djibouti": "DJ", 
-  "France": "FR", "Gabon": "GA", "Guinée": "GN", "Guinée équatoriale": "GQ", "Haïti": "HT", 
-  "Luxembourg": "LU", "Madagascar": "MG", "Mali": "ML", "Maurice": "MU", "Monaco": "MC", 
-  "Niger": "NE", "République centrafricaine": "CF", "République démocratique du Congo": "CD", 
-  "Rwanda": "RW", "Sénégal": "SN", "Seychelles": "SC", "Suisse": "CH", "Tchad": "TD", 
-  "Togo": "TG", "Vanuatu": "VU",
-  "Antigua and Barbuda": "AG", "Australia": "AU", "Bahamas": "BS", "Barbados": "BB", 
-  "Belize": "BZ", "Botswana": "BW", "Dominica": "DM", "Eswatini": "SZ", "Fiji": "FJ", 
-  "Gambia": "GM", "Ghana": "GH", "Grenada": "GD", "Guyana": "GY", "India": "IN", 
-  "Ireland": "IE", "Jamaica": "JM", "Kenya": "KE", "Kiribati": "KI", "Lesotho": "LS", 
-  "Liberia": "LR", "Malawi": "MW", "Malta": "MT", "Marshall Islands": "MH", "Mauritius": "MU", 
-  "Micronesia": "FM", "Namibia": "NA", "Nauru": "NR", "New Zealand": "NZ", "Nigeria": "NG", 
-  "Pakistan": "PK", "Palau": "PW", "Papua New Guinea": "PG", "Philippines": "PH", 
-  "Saint Kitts and Nevis": "KN", "Saint Lucia": "LC", "Saint Vincent and the Grenadines": "VC", 
-  "Samoa": "WS", "Sierra Leone": "SL", "Singapore": "SG", "Solomon Islands": "SB", 
-  "South Africa": "ZA", "South Sudan": "SS", "Sudan": "SD", "Tanzania": "TZ", "Tonga": "TO", 
-  "Trinidad and Tobago": "TT", "Tuvalu": "TV", "Uganda": "UG", "United Kingdom": "GB", 
-  "United States": "US", "Zambia": "ZM", "Zimbabwe": "ZW"
-};
 
 export default function Register() {
   const { t, i18n } = useTranslation();
@@ -114,94 +74,10 @@ export default function Register() {
 
   // City State
   const [city, setCity] = useState('');
-  const [isCityOpen, setIsCityOpen] = useState(false);
-  const [citySearchQuery, setCitySearchQuery] = useState('');
-  const [availableCities, setAvailableCities] = useState<CityOption[]>([]);
-  const [isLoadingCities, setIsLoadingCities] = useState(false);
-  const cityRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let isCurrent = true;
-
-    const loadCities = async () => {
-      if (!country) {
-        setAvailableCities([]);
-        setIsLoadingCities(false);
-        return;
-      }
-
-      setIsLoadingCities(true);
-      setAvailableCities([]);
-
-      const { City } = await import('country-state-city');
-      const iso = COUNTRY_TO_ISO[country];
-      if (!iso) {
-        if (isCurrent) {
-          setAvailableCities([]);
-          setIsLoadingCities(false);
-        }
-        return;
-      }
-
-      const cities = City.getCitiesOfCountry(iso) || [];
-      const uniqueCities = new Map<string, CityOption>();
-
-      cities.forEach((cityItem) => {
-        const key = `${normalizeSearchText(cityItem.name)}-${cityItem.stateCode || ''}`;
-        if (!uniqueCities.has(key)) {
-          uniqueCities.set(key, cityItem);
-        }
-      });
-
-      if (isCurrent) {
-        setAvailableCities(Array.from(uniqueCities.values()).sort((a, b) => a.name.localeCompare(b.name)));
-        setIsLoadingCities(false);
-      }
-    };
-
-    loadCities().catch(() => {
-      if (isCurrent) {
-        setAvailableCities([]);
-        setIsLoadingCities(false);
-      }
-    });
-
-    return () => {
-      isCurrent = false;
-    };
-  }, [country]);
-
-  const filteredCities = useMemo(() => {
-    const normalizedQuery = normalizeSearchText(citySearchQuery);
-    if (!normalizedQuery) return availableCities;
-    const queryTerms = normalizedQuery.split(' ');
-
-    return availableCities.filter((cityItem) => {
-      const normalizedCity = normalizeSearchText(cityItem.name);
-      return queryTerms.every((term) => normalizedCity.includes(term));
-    });
-  }, [availableCities, citySearchQuery]);
-
-  const visibleCities = useMemo(() => filteredCities.slice(0, 250), [filteredCities]);
-  const trimmedCitySearch = citySearchQuery.trim();
-  const hasExactCityMatch = filteredCities.some((cityItem) => normalizeSearchText(cityItem.name) === normalizeSearchText(trimmedCitySearch));
-  const canUseTypedCity = Boolean(trimmedCitySearch && !hasExactCityMatch);
-
-  // Close city dropdown on outside click
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
-        setIsCityOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   // Reset city when country changes
   useEffect(() => {
     setCity('');
-    setCitySearchQuery('');
   }, [country]);
 
   // Simple password strength calculation
@@ -301,7 +177,7 @@ export default function Register() {
       login(data);
       
       setStep(5);
-      setTimeout(() => navigate('/dashboard'), 2500);
+      setTimeout(() => navigate('/dashboard'), 800);
     } else {
       setOtpError(true);
     }
@@ -534,91 +410,15 @@ export default function Register() {
                       
                       <div className={styles.fieldGroup}>
                         <label className={styles.fieldLabel}>{t('register.step2.city')}</label>
-                        
-                        <div className={styles.customSelectWrapper} ref={cityRef}>
-                          <div 
-                            className={`${styles.customSelect} ${isCityOpen ? styles.selectOpen : ''} ${!city ? styles.selectPlaceholder : ''} ${!country ? styles.selectDisabled : ''}`}
-                            onClick={() => {
-                              if (country) {
-                                setIsCityOpen(!isCityOpen);
-                                setCitySearchQuery(''); // reset search on open
-                              }
-                            }}
-                          >
-                            <span>{!country ? (i18n.language === 'en' ? 'Select a country first' : 'Sélectionnez d\'abord un pays') : (city || t('register.step2.cityPlaceholder'))}</span>
-                            <ChevronDown size={16} className={`${styles.selectIcon} ${isCityOpen ? styles.selectIconOpen : ''}`} />
-                          </div>
-                          
-                          {isCityOpen && country && (
-                            <div className={styles.selectDropdown}>
-                              <div className={styles.citySearchBox}>
-                                <Search size={16} className={styles.citySearchIcon} />
-                                <input 
-                                  type="text" 
-                                  placeholder={i18n.language === 'en' ? 'Search city...' : 'Rechercher une ville...'}
-                                  className={styles.citySearchInput}
-                                  value={citySearchQuery}
-                                  onChange={(e) => setCitySearchQuery(e.target.value)}
-                                  onClick={(e) => e.stopPropagation()}
-                                  autoFocus
-                                />
-                              </div>
-                              
-                              <div className={styles.cityList}>
-                                {isLoadingCities ? (
-                                  <div className={styles.cityEmptyState}>
-                                    {i18n.language === 'en' ? 'Loading cities...' : 'Chargement des villes...'}
-                                  </div>
-                                ) : (
-                                  <>
-                                    {canUseTypedCity && (
-                                      <div
-                                        className={`${styles.selectOption} ${styles.cityTypedOption}`}
-                                        onClick={() => {
-                                          setCity(trimmedCitySearch);
-                                          setIsCityOpen(false);
-                                          setCitySearchQuery('');
-                                        }}
-                                      >
-                                        {i18n.language === 'en' ? 'Use' : 'Utiliser'} "{trimmedCitySearch}"
-                                        <Check size={14} className={styles.checkIcon} />
-                                      </div>
-                                    )}
-
-                                    {visibleCities.length > 0 ? (
-                                      visibleCities.map((c) => (
-                                        <div 
-                                          key={`${c.name}-${c.stateCode || ''}-${c.latitude || ''}-${c.longitude || ''}`}
-                                          className={`${styles.selectOption} ${city === c.name ? styles.selectOptionActive : ''}`} 
-                                          onClick={() => {
-                                            setCity(c.name);
-                                            setIsCityOpen(false);
-                                            setCitySearchQuery('');
-                                          }}
-                                        >
-                                          {c.name} {city === c.name && <Check size={14} className={styles.checkIcon} />}
-                                        </div>
-                                      ))
-                                    ) : (
-                                      <div className={styles.cityEmptyState}>
-                                        {i18n.language === 'en' ? 'No cities found for this country' : 'Aucune ville trouvée pour ce pays'}
-                                      </div>
-                                    )}
-
-                                    {filteredCities.length > visibleCities.length && (
-                                      <div className={styles.cityMoreHint}>
-                                        {i18n.language === 'en'
-                                          ? 'Keep typing to narrow the results.'
-                                          : 'Continuez à saisir pour affiner les résultats.'}
-                                      </div>
-                                    )}
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        <input type="hidden" required value={city} />
+                        <input
+                          type="text"
+                          className={styles.fieldInput}
+                          placeholder={i18n.language === 'en' ? (country ? 'Enter your city' : 'Select a country first') : (country ? 'Entrez votre ville' : 'Sélectionnez d\'abord un pays')}
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          disabled={!country}
+                          required
+                        />
                       </div>
                     </div>
 
