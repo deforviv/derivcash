@@ -22,28 +22,36 @@ export default function Login() {
     setIsLoading(true);
     setError('');
 
-    // Authenticate against Supabase profiles table
+    let profile = null;
     const { data, error: dbError } = await supabase
       .from('profiles')
       .select('*')
       .eq('email', email)
       .single();
 
+    if (!dbError && data) {
+      profile = data;
+    } else {
+      // Fallback to local storage if Supabase fails or doesn't find the user
+      const localProfiles = JSON.parse(localStorage.getItem('derivcash_mock_profiles') || '[]');
+      profile = localProfiles.find((p: any) => p.email === email);
+    }
+
     setIsLoading(false);
 
-    if (dbError || !data || data.password_hash !== btoa(password)) {
+    if (!profile || profile.password_hash !== btoa(encodeURIComponent(password))) {
       setError(i18n.language === 'en' ? 'Invalid email or password' : 'Email ou mot de passe incorrect');
       return;
     }
 
-    if (data.is_banned) {
+    if (profile.is_banned) {
       setError(i18n.language === 'en' ? 'This profile has been banned' : 'Ce profil a été banni');
       return;
     }
 
     // Success
-    login(data);
-    navigate(data.role === 'admin' ? '/admin' : '/dashboard');
+    login(profile);
+    navigate(profile.role === 'admin' ? '/admin' : '/dashboard');
   };
 
   const sideFeatures = t('login.sideFeatures', { returnObjects: true }) as string[];

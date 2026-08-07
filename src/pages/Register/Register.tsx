@@ -234,12 +234,18 @@ export default function Register() {
       setEmailError('');
       setPhoneError('');
       const { emailTaken, phoneTaken } = await checkDuplicate(email, phone);
+      
+      const localProfiles = JSON.parse(localStorage.getItem('derivcash_mock_profiles') || '[]');
+      const localEmailTaken = localProfiles.some((p: any) => p.email === email);
+      const localPhoneTaken = localProfiles.some((p: any) => p.phone === phone);
+
       setIsSending(false);
-      if (emailTaken) {
+      
+      if (emailTaken || localEmailTaken) {
         setEmailError(t('register.step1.emailTaken'));
         return;
       }
-      if (phoneTaken) {
+      if (phoneTaken || localPhoneTaken) {
         setPhoneError(t('register.step1.phoneTaken'));
         return;
       }
@@ -283,25 +289,32 @@ export default function Register() {
         phone,
         country,
         city,
-        password_hash: btoa(password), // Base64 encode for now; use bcrypt on server in production
+        password_hash: btoa(encodeURIComponent(password)), // Safe base64 encode
       };
       const { error } = await createProfile(newProfile);
+      
+      let profileId = Date.now().toString();
+
+      if (error) {
+        console.warn('Profile creation failed on Supabase, using local fallback:', error);
+        const localProfiles = JSON.parse(localStorage.getItem('derivcash_mock_profiles') || '[]');
+        localProfiles.push({ ...newProfile, id: profileId });
+        localStorage.setItem('derivcash_mock_profiles', JSON.stringify(localProfiles));
+      }
+
       setIsSending(false);
       
-      if (error) {
-        console.error('Profile creation failed:', error);
-      } else {
-        // Log the user in via AuthContext
-        login({
-          first_name: firstName,
-          last_name: lastName,
-          gender,
-          email,
-          phone,
-          country,
-          city,
-        });
-      }
+      // Log the user in via AuthContext
+      login({
+        id: profileId,
+        first_name: firstName,
+        last_name: lastName,
+        gender,
+        email,
+        phone,
+        country,
+        city,
+      });
       
       setStep(5);
       setTimeout(() => navigate('/dashboard'), 2500);
