@@ -767,6 +767,7 @@ function AdminDashboard() {
   const [notificationMessage, setNotificationMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [adminMessage, setAdminMessage] = useState('');
+  const [downloadingDocId, setDownloadingDocId] = useState<string | null>(null);
 
   const selectedProfile = profiles.find((profile) => profile.id === selectedProfileId) || profiles[0];
   const visibleProfiles = profiles.filter((profile) => profile.role !== 'admin');
@@ -783,7 +784,7 @@ function AdminDashboard() {
         .order('created_at', { ascending: false }),
       supabase
         .from('loan_applications')
-        .select('*')
+        .select('id,profile_id,solution_type,amount,duration_months,employment_status,monthly_income,monthly_expenses,status,created_at,reviewed_at')
         .order('created_at', { ascending: false }),
     ]);
 
@@ -852,15 +853,34 @@ function AdminDashboard() {
     link.click();
   };
 
-  const downloadLoanDocument = (loan: AdminLoan, key: 'selfie' | 'identity') => {
-    const documentFile = getDocumentFile(loan, key);
-    if (!documentFile?.data_url) {
-      setAdminMessage('Ce document n est pas disponible pour cette demande.');
-      return;
-    }
+  const downloadLoanDocument = async (loan: AdminLoan, key: 'selfie' | 'identity') => {
+    setDownloadingDocId(`${loan.id}-${key}`);
+    setAdminMessage('Téléchargement du document en cours...');
+    
+    try {
+      const { data, error } = await supabase.from('loan_applications').select('documents').eq('id', loan.id).single();
+      
+      if (error || !data?.documents) {
+        setAdminMessage('Impossible de récupérer le document.');
+        setDownloadingDocId(null);
+        return;
+      }
 
-    const extension = getDocumentExtension(documentFile.data_url);
-    downloadDataUrl(`derivcash-${key}-${loan.id}.${extension}`, documentFile.data_url);
+      const documentFile = getDocumentFile({ ...loan, documents: data.documents }, key);
+      if (!documentFile?.data_url) {
+        setAdminMessage(`Le document ${key} n'est pas disponible pour cette demande.`);
+        setDownloadingDocId(null);
+        return;
+      }
+
+      const extension = getDocumentExtension(documentFile.data_url);
+      downloadDataUrl(`derivcash-${key}-${loan.id}.${extension}`, documentFile.data_url);
+      setAdminMessage('Document téléchargé avec succès.');
+    } catch (err) {
+      setAdminMessage('Erreur lors du téléchargement.');
+    }
+    
+    setDownloadingDocId(null);
   };
 
   const downloadProfile = (profile: AdminProfile) => {
@@ -1113,9 +1133,6 @@ function AdminDashboard() {
             </div>
             <div className={styles.loanDecisionList}>
               {loans.map((loan) => {
-                const selfieDocument = getDocumentFile(loan, 'selfie');
-                const identityDocument = getDocumentFile(loan, 'identity');
-
                 return (
                   <div className={styles.loanDecisionItem} key={loan.id}>
                     <div>
@@ -1123,38 +1140,28 @@ function AdminDashboard() {
                       <p>{Number(loan.amount).toLocaleString('fr-FR')} EUR sur {loan.duration_months} mois</p>
                       <span>{loan.solution_type} - {loan.employment_status} - {loan.status}</span>
                       <div className={styles.loanDocuments}>
-                        {selfieDocument ? (
-                          <div className={styles.documentPreview}>
-                            <Image size={16} />
-                            <span>Selfie envoye</span>
-                            <button onClick={() => downloadLoanDocument(loan, 'selfie')}>
-                              <Download size={14} />
-                              Télécharger
-                            </button>
-                          </div>
-                        ) : (
-                          <div className={styles.documentMissing}>
-                            <Image size={16} />
-                            <span>Selfie non disponible</span>
-                          </div>
-                        )}
-                        {identityDocument ? (
-                          <div className={styles.documentPreview}>
-                            <FileImage size={16} />
-                            <span>
-                              Piece d'identite {identityDocument.id_type ? `(${identityDocument.id_type})` : ''}
-                            </span>
-                            <button onClick={() => downloadLoanDocument(loan, 'identity')}>
-                              <Download size={14} />
-                              Télécharger
-                            </button>
-                          </div>
-                        ) : (
-                          <div className={styles.documentMissing}>
-                            <FileImage size={16} />
-                            <span>Document d'identite non disponible</span>
-                          </div>
-                        )}
+                        <div className={styles.documentPreview}>
+                          <Image size={16} />
+                          <span>Selfie</span>
+                          <button 
+                            onClick={() => downloadLoanDocument(loan, 'selfie')}
+                            disabled={downloadingDocId === `${loan.id}-selfie`}
+                          >
+                            <Download size={14} />
+                            {downloadingDocId === `${loan.id}-selfie` ? '...' : 'Télécharger'}
+                          </button>
+                        </div>
+                        <div className={styles.documentPreview}>
+                          <FileImage size={16} />
+                          <span>Pièce d'identité</span>
+                          <button 
+                            onClick={() => downloadLoanDocument(loan, 'identity')}
+                            disabled={downloadingDocId === `${loan.id}-identity`}
+                          >
+                            <Download size={14} />
+                            {downloadingDocId === `${loan.id}-identity` ? '...' : 'Télécharger'}
+                          </button>
+                        </div>
                       </div>
                     </div>
                     {loan.status === 'pending' ? (
