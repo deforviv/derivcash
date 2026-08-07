@@ -22,24 +22,16 @@ export default function Login() {
     setIsLoading(true);
     setError('');
 
-    let profile = null;
-    const { data, error: dbError } = await supabase
+    // Authenticate against Supabase profiles table
+    const { data: profile, error: dbError } = await supabase
       .from('profiles')
       .select('*')
       .eq('email', email)
       .single();
 
-    if (!dbError && data) {
-      profile = data;
-    } else {
-      // Fallback to local storage if Supabase fails or doesn't find the user
-      const localProfiles = JSON.parse(localStorage.getItem('derivcash_mock_profiles') || '[]');
-      profile = localProfiles.find((p: any) => p.email === email);
-    }
-
     setIsLoading(false);
 
-    if (!profile || profile.password_hash !== btoa(encodeURIComponent(password))) {
+    if (dbError || !profile || profile.password_hash !== btoa(encodeURIComponent(password))) {
       setError(i18n.language === 'en' ? 'Invalid email or password' : 'Email ou mot de passe incorrect');
       return;
     }

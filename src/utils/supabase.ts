@@ -40,11 +40,11 @@ export const checkDuplicate = async (email: string, phone: string): Promise<{ em
 /**
  * Insert a new profile into the Supabase database.
  */
-export const createProfile = async (profile: Omit<Profile, 'id' | 'created_at'>): Promise<{ error: string | null }> => {
-  const { error } = await supabase.from('profiles').insert([profile]);
+export const createProfile = async (profile: Omit<Profile, 'id' | 'created_at'>): Promise<{ data: Profile | null, error: string | null }> => {
+  const { data, error } = await supabase.from('profiles').insert([profile]).select().single();
   if (error) {
     console.error('Supabase Insert Error:', error.message);
-    return { error: error.message };
+    return { data: null, error: error.message };
   }
-  return { error: null };
+  return { data, error: null };
 };

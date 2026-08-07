@@ -234,18 +234,14 @@ export default function Register() {
       setEmailError('');
       setPhoneError('');
       const { emailTaken, phoneTaken } = await checkDuplicate(email, phone);
-      
-      const localProfiles = JSON.parse(localStorage.getItem('derivcash_mock_profiles') || '[]');
-      const localEmailTaken = localProfiles.some((p: any) => p.email === email);
-      const localPhoneTaken = localProfiles.some((p: any) => p.phone === phone);
 
       setIsSending(false);
       
-      if (emailTaken || localEmailTaken) {
+      if (emailTaken) {
         setEmailError(t('register.step1.emailTaken'));
         return;
       }
-      if (phoneTaken || localPhoneTaken) {
+      if (phoneTaken) {
         setPhoneError(t('register.step1.phoneTaken'));
         return;
       }
@@ -291,30 +287,18 @@ export default function Register() {
         city,
         password_hash: btoa(encodeURIComponent(password)), // Safe base64 encode
       };
-      const { error } = await createProfile(newProfile);
       
-      let profileId = Date.now().toString();
-
-      if (error) {
-        console.warn('Profile creation failed on Supabase, using local fallback:', error);
-        const localProfiles = JSON.parse(localStorage.getItem('derivcash_mock_profiles') || '[]');
-        localProfiles.push({ ...newProfile, id: profileId });
-        localStorage.setItem('derivcash_mock_profiles', JSON.stringify(localProfiles));
-      }
+      const { data, error } = await createProfile(newProfile);
 
       setIsSending(false);
+
+      if (error || !data) {
+        alert(i18n.language === 'en' ? `Registration failed: ${error}` : `Échec de l'inscription: ${error}`);
+        return; // DO NOT PROCEED TO SUCCESS STEP
+      }
       
-      // Log the user in via AuthContext
-      login({
-        id: profileId,
-        first_name: firstName,
-        last_name: lastName,
-        gender,
-        email,
-        phone,
-        country,
-        city,
-      });
+      // Log the user in via AuthContext using the returned data from Supabase
+      login(data);
       
       setStep(5);
       setTimeout(() => navigate('/dashboard'), 2500);
