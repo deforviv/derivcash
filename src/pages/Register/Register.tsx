@@ -2,11 +2,17 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Check, Eye, EyeOff, ShieldCheck, ChevronRight, ChevronDown, Search, Loader2, Mars, Venus } from 'lucide-react';
-import { City } from 'country-state-city';
 import { sendVerificationEmail } from '../../utils/brevo';
 import { checkDuplicate, createProfile } from '../../utils/supabase';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Register.module.css';
+
+type CityOption = {
+  name: string;
+  stateCode?: string;
+  latitude?: string | null;
+  longitude?: string | null;
+};
 
 const normalizeSearchText = (value: string) =>
   value
@@ -110,23 +116,59 @@ export default function Register() {
   const [city, setCity] = useState('');
   const [isCityOpen, setIsCityOpen] = useState(false);
   const [citySearchQuery, setCitySearchQuery] = useState('');
+  const [availableCities, setAvailableCities] = useState<CityOption[]>([]);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
 
-  const availableCities = useMemo(() => {
-    if (!country) return [];
-    const iso = COUNTRY_TO_ISO[country];
-    if (!iso) return [];
-    const cities = City.getCitiesOfCountry(iso) || [];
-    const uniqueCities = new Map<string, (typeof cities)[number]>();
+  useEffect(() => {
+    let isCurrent = true;
 
-    cities.forEach((cityItem) => {
-      const key = `${normalizeSearchText(cityItem.name)}-${cityItem.stateCode || ''}`;
-      if (!uniqueCities.has(key)) {
-        uniqueCities.set(key, cityItem);
+    const loadCities = async () => {
+      if (!country) {
+        setAvailableCities([]);
+        setIsLoadingCities(false);
+        return;
+      }
+
+      setIsLoadingCities(true);
+      setAvailableCities([]);
+
+      const { City } = await import('country-state-city');
+      const iso = COUNTRY_TO_ISO[country];
+      if (!iso) {
+        if (isCurrent) {
+          setAvailableCities([]);
+          setIsLoadingCities(false);
+        }
+        return;
+      }
+
+      const cities = City.getCitiesOfCountry(iso) || [];
+      const uniqueCities = new Map<string, CityOption>();
+
+      cities.forEach((cityItem) => {
+        const key = `${normalizeSearchText(cityItem.name)}-${cityItem.stateCode || ''}`;
+        if (!uniqueCities.has(key)) {
+          uniqueCities.set(key, cityItem);
+        }
+      });
+
+      if (isCurrent) {
+        setAvailableCities(Array.from(uniqueCities.values()).sort((a, b) => a.name.localeCompare(b.name)));
+        setIsLoadingCities(false);
+      }
+    };
+
+    loadCities().catch(() => {
+      if (isCurrent) {
+        setAvailableCities([]);
+        setIsLoadingCities(false);
       }
     });
 
-    return Array.from(uniqueCities.values()).sort((a, b) => a.name.localeCompare(b.name));
+    return () => {
+      isCurrent = false;
+    };
   }, [country]);
 
   const filteredCities = useMemo(() => {
@@ -526,46 +568,54 @@ export default function Register() {
                               </div>
                               
                               <div className={styles.cityList}>
-                                {canUseTypedCity && (
-                                  <div
-                                    className={`${styles.selectOption} ${styles.cityTypedOption}`}
-                                    onClick={() => {
-                                      setCity(trimmedCitySearch);
-                                      setIsCityOpen(false);
-                                      setCitySearchQuery('');
-                                    }}
-                                  >
-                                    {i18n.language === 'en' ? 'Use' : 'Utiliser'} "{trimmedCitySearch}"
-                                    <Check size={14} className={styles.checkIcon} />
-                                  </div>
-                                )}
-
-                                {visibleCities.length > 0 ? (
-                                  visibleCities.map((c) => (
-                                    <div 
-                                      key={`${c.name}-${c.stateCode || ''}-${c.latitude || ''}-${c.longitude || ''}`}
-                                      className={`${styles.selectOption} ${city === c.name ? styles.selectOptionActive : ''}`} 
-                                      onClick={() => {
-                                        setCity(c.name);
-                                        setIsCityOpen(false);
-                                        setCitySearchQuery('');
-                                      }}
-                                    >
-                                      {c.name} {city === c.name && <Check size={14} className={styles.checkIcon} />}
-                                    </div>
-                                  ))
-                                ) : (
+                                {isLoadingCities ? (
                                   <div className={styles.cityEmptyState}>
-                                    {i18n.language === 'en' ? 'No cities found for this country' : 'Aucune ville trouvée pour ce pays'}
+                                    {i18n.language === 'en' ? 'Loading cities...' : 'Chargement des villes...'}
                                   </div>
-                                )}
+                                ) : (
+                                  <>
+                                    {canUseTypedCity && (
+                                      <div
+                                        className={`${styles.selectOption} ${styles.cityTypedOption}`}
+                                        onClick={() => {
+                                          setCity(trimmedCitySearch);
+                                          setIsCityOpen(false);
+                                          setCitySearchQuery('');
+                                        }}
+                                      >
+                                        {i18n.language === 'en' ? 'Use' : 'Utiliser'} "{trimmedCitySearch}"
+                                        <Check size={14} className={styles.checkIcon} />
+                                      </div>
+                                    )}
 
-                                {filteredCities.length > visibleCities.length && (
-                                  <div className={styles.cityMoreHint}>
-                                    {i18n.language === 'en'
-                                      ? 'Keep typing to narrow the results.'
-                                      : 'Continuez à saisir pour affiner les résultats.'}
-                                  </div>
+                                    {visibleCities.length > 0 ? (
+                                      visibleCities.map((c) => (
+                                        <div 
+                                          key={`${c.name}-${c.stateCode || ''}-${c.latitude || ''}-${c.longitude || ''}`}
+                                          className={`${styles.selectOption} ${city === c.name ? styles.selectOptionActive : ''}`} 
+                                          onClick={() => {
+                                            setCity(c.name);
+                                            setIsCityOpen(false);
+                                            setCitySearchQuery('');
+                                          }}
+                                        >
+                                          {c.name} {city === c.name && <Check size={14} className={styles.checkIcon} />}
+                                        </div>
+                                      ))
+                                    ) : (
+                                      <div className={styles.cityEmptyState}>
+                                        {i18n.language === 'en' ? 'No cities found for this country' : 'Aucune ville trouvée pour ce pays'}
+                                      </div>
+                                    )}
+
+                                    {filteredCities.length > visibleCities.length && (
+                                      <div className={styles.cityMoreHint}>
+                                        {i18n.language === 'en'
+                                          ? 'Keep typing to narrow the results.'
+                                          : 'Continuez à saisir pour affiner les résultats.'}
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </div>
                             </div>

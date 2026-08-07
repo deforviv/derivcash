@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -31,8 +31,9 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../utils/supabase';
 import LoanApplication from '../components/Dashboard/LoanApplication';
 import type { LoanData } from '../components/Dashboard/LoanApplication';
-import LoanSuccessPdf from '../components/Dashboard/LoanSuccessPdf';
 import styles from './Dashboard.module.css';
+
+const LoanSuccessPdf = lazy(() => import('../components/Dashboard/LoanSuccessPdf'));
 
 type AdminProfile = {
   id: string;
@@ -739,10 +740,12 @@ export default function Dashboard() {
         )}
 
         {activeTab === 'loan_success' && submittedLoanData && (
-          <LoanSuccessPdf 
-            loanData={submittedLoanData}
-            onContinue={() => setActiveTab('overview')}
-          />
+          <Suspense fallback={<div className={styles.tabContent} />}>
+            <LoanSuccessPdf
+              loanData={submittedLoanData}
+              onContinue={() => setActiveTab('overview')}
+            />
+          </Suspense>
         )}
       </main>
     </div>
