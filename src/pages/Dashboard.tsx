@@ -192,6 +192,12 @@ export default function Dashboard() {
     fetchLoanStatus();
   }, [user]);
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate, user]);
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
     setSidebarOpen(false);
@@ -199,7 +205,6 @@ export default function Dashboard() {
 
   // If a user goes directly to /dashboard but isn't logged in, redirect them
   if (!user) {
-    navigate('/login');
     return null;
   }
 

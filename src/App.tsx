@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const MainLayout = lazy(() => import('./components/layout/MainLayout'));
 const Home = lazy(() => import('./pages/Home/Home'));
@@ -31,20 +32,22 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Suspense fallback={pageFallback}>
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/payment/basic-card" element={<BasicCardPayment />} />
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path="apply" element={<Apply />} />
-              {/* <Route path="dashboard" element={<Dashboard />} /> */}
-            </Route>
-          </Routes>
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={pageFallback}>
+            <Routes>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/admin" element={<Dashboard />} />
+              <Route path="/payment/basic-card" element={<BasicCardPayment />} />
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path="apply" element={<Apply />} />
+                {/* <Route path="dashboard" element={<Dashboard />} /> */}
+              </Route>
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </Router>
     </AuthProvider>
   );
