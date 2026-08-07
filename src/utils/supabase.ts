@@ -63,7 +63,11 @@ export const createProfile = async (profile: Omit<Profile, 'id' | 'created_at'>)
   const { data, error } = await supabase.from('profiles').insert([profile]).select().single();
   if (error) {
     console.error('Supabase Insert Error:', error.message);
-    return { data: null, error: error.message };
+    let errorMessage = error.message;
+    if (errorMessage.includes('Failed to fetch')) {
+      errorMessage = "Impossible de se connecter au serveur (Supabase introuvable ou hors ligne).";
+    }
+    return { data: null, error: errorMessage };
   }
   return { data, error: null };
 };
